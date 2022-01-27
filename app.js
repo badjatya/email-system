@@ -12,7 +12,8 @@ app.use(cookieParser());
 app.use(cors());
 
 // Routes
-app.use("/api/v1", require("./app/routes/auth"));
+app.use("/api/v1/auth", require("./app/routes/auth"));
+app.use("/api/v1/user", require("./app/routes/user"));
 
 // Exporting app
 module.exports = app;
