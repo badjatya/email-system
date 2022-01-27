@@ -25,7 +25,7 @@ exports.signup = async (req, res) => {
     const user = await User.create({ name, email, password });
 
     // Generating auth token
-    const token = await user.getJwtToken();
+    const token = await user.getJwtToken(password);
 
     // Sending cookie
     res.cookie("token", token, {
@@ -72,7 +72,7 @@ exports.signin = async (req, res) => {
     }
 
     // Generating auth token for login
-    const token = await user.getJwtToken();
+    const token = await user.getJwtToken(password);
 
     // Sending cookie
     res.cookie("token", token, {

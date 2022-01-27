@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const req = require("express/lib/request");
 
 // Schema
 const userSchema = mongoose.Schema(
@@ -42,8 +43,8 @@ userSchema.pre("save", async function (next) {
 });
 
 // Getting jwt login token
-userSchema.methods.getJwtToken = async function () {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY);
+userSchema.methods.getJwtToken = async function (password) {
+  return jwt.sign({ id: this._id, password }, process.env.JWT_SECRET_KEY);
 };
 
 // Checking user entered password is valid password

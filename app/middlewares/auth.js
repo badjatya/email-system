@@ -37,6 +37,7 @@ exports.isLoggedIn = async (req, res, next) => {
 
     req.user = user;
     req.token = token;
+    req.password = decodedToken.password;
     next();
   } catch (error) {
     customError(res, 403, "Token not found, please authenticate");
