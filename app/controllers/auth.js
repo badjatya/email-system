@@ -4,6 +4,7 @@ const User = require("../models/user");
 // Utils
 const customError = require("../utils/customError");
 
+// Creating account - signup
 exports.signup = async (req, res) => {
   try {
     // Destructuring body
@@ -33,7 +34,7 @@ exports.signup = async (req, res) => {
     });
 
     // Sending response
-    res.json({
+    res.status(201).json({
       status: "success",
       token,
       user,
@@ -43,6 +44,7 @@ exports.signup = async (req, res) => {
   }
 };
 
+// Accessing account - signin
 exports.signin = async (req, res) => {
   try {
     // Destructuring body
@@ -83,6 +85,22 @@ exports.signin = async (req, res) => {
       status: "success",
       token,
       user,
+    });
+  } catch (error) {
+    customError(res, 500, error.message, "error");
+  }
+};
+
+// Logging out account - signout
+exports.signout = async (req, res) => {
+  try {
+    // Clearing cookie
+    res.cookie("token", null);
+
+    // Sending response
+    res.json({
+      status: "success",
+      message: "User successfully signout",
     });
   } catch (error) {
     customError(res, 500, error.message, "error");
