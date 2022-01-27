@@ -5,7 +5,7 @@ const router = require("express").Router();
 const { signup } = require("../controllers/auth");
 
 // Routes
-router.get("/signup", signup);
+router.post("/signup", signup);
 
 // Exporting router
 module.exports = router;
