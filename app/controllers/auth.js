@@ -1,5 +1,3 @@
-// Packages
-
 // Models
 const User = require("../models/user");
 
@@ -27,6 +25,12 @@ exports.signup = async (req, res) => {
 
     // Generating auth token
     const token = await user.getJwtToken();
+
+    // Sending cookie
+    res.cookie("token", token, {
+      expire: new Date() + 99999,
+      httpOnly: true,
+    });
 
     // Sending response
     res.json({
@@ -67,6 +71,12 @@ exports.signin = async (req, res) => {
 
     // Generating auth token for login
     const token = await user.getJwtToken();
+
+    // Sending cookie
+    res.cookie("token", token, {
+      expire: new Date() + 99999,
+      httpOnly: true,
+    });
 
     // Sending response
     res.json({
