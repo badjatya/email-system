@@ -9,6 +9,8 @@ const {
   getSignedInUserSentMailDetails,
   getSignedInUserDraftMails,
   getSignedInUserDraftMailDetails,
+  signedInUserUpdatingFavoriteSentMail,
+  signedInUserUpdatingFavoriteDraftMail,
 } = require("../controllers/user");
 
 // Importing Middlewares
@@ -22,11 +24,17 @@ router.post("/mail/send", isLoggedIn, signedInUserSendsAMail);
 
 // Getting sent mail
 router.get("/mail/sent", isLoggedIn, getSignedInUserSentMails);
-router.get("/mail/sent/:id", isLoggedIn, getSignedInUserSentMailDetails);
+router
+  .route("/mail/sent/:id")
+  .get(isLoggedIn, getSignedInUserSentMailDetails)
+  .patch(isLoggedIn, signedInUserUpdatingFavoriteSentMail);
 
 // Getting draft mail
 router.get("/mail/draft", isLoggedIn, getSignedInUserDraftMails);
-router.get("/mail/draft/:id", isLoggedIn, getSignedInUserDraftMailDetails);
+router
+  .route("/mail/draft/:id")
+  .get(isLoggedIn, getSignedInUserDraftMailDetails)
+  .patch(isLoggedIn, signedInUserUpdatingFavoriteDraftMail);
 
 // Exporting router
 module.exports = router;
