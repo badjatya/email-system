@@ -76,3 +76,101 @@ exports.signedInUserSendsAMail = async (req, res) => {
     customError(res, 500, error.message, "error");
   }
 };
+
+// user getting all sent mails
+exports.getSignedInUserSentMails = async (req, res) => {
+  try {
+    // Getting all sent mails
+    const sentMails = await Mail.find({
+      user: req.user._id,
+      isMailSent: true,
+    })
+      .select(["-__v", "-updatedAt", "-user", "-isMailSent", "-emailText"])
+      .sort("-createdAt");
+
+    // Sending response
+    res.json({
+      status: "success",
+      results: sentMails.length,
+      mails: sentMails,
+    });
+  } catch (error) {
+    customError(res, 500, error.message, "error");
+  }
+};
+
+// user getting details of sent mail
+exports.getSignedInUserSentMailDetails = async (req, res) => {
+  try {
+    // Getting all sent mail
+    const sentMail = await Mail.findOne({
+      user: req.user._id,
+      isMailSent: true,
+      _id: req.params.id,
+    })
+      .sort("-createdAt")
+      .populate("user", "name email");
+
+    // If mail not found
+    if (!sentMail) {
+      return customError(res, 404, "Sent Mail not found");
+    }
+
+    // Sending response
+    res.json({
+      status: "success",
+      sentMail,
+    });
+  } catch (error) {
+    customError(res, 500, error.message, "error");
+  }
+};
+
+// user getting all draft mails
+exports.getSignedInUserDraftMails = async (req, res) => {
+  try {
+    // Getting all draft mails
+    const draftMails = await Mail.find({
+      user: req.user._id,
+      isMailSent: false,
+    })
+      .select(["-__v", "-updatedAt", "-user", "-isMailSent", "-emailText"])
+      .sort("-createdAt");
+
+    // Sending response
+    res.json({
+      status: "success",
+      results: draftMails.length,
+      mails: draftMails,
+    });
+  } catch (error) {
+    customError(res, 500, error.message, "error");
+  }
+};
+
+// user getting details of draft mail
+exports.getSignedInUserDraftMailDetails = async (req, res) => {
+  try {
+    // Getting all draft mail
+    const draftMail = await Mail.findOne({
+      user: req.user._id,
+      isMailSent: false,
+      _id: req.params.id,
+    })
+      .sort("-createdAt")
+      .populate("user", "name email");
+
+    // If mail not found
+    if (!draftMail) {
+      return customError(res, 404, "Draft Mail not found");
+    }
+
+    // Sending response
+    res.json({
+      status: "success",
+      draftMail,
+    });
+  } catch (error) {
+    customError(res, 500, error.message, "error");
+  }
+};
