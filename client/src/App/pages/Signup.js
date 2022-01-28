@@ -2,11 +2,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 // Components
 import Button from "../components/Button";
 
-// Assets
+// Actions
+import { setUser } from "../redux/actions/user.action";
+
+// Assets / Utils
 import SignupSvg from "../assets/signup.svg";
 import { API } from "../utils/api";
 
@@ -18,23 +23,38 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Hooks
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!name || !email || !password) {
       setError("Name, email and password are required");
     }
 
-    const user = { name, email, password };
-
     setLoading(true);
     try {
-      const response = axios.post(`${API}/auth/signup`, user);
-      const data = (await response).data;
+      const { data } = await axios.post(`${API}/auth/signup`, {
+        name,
+        email,
+        password,
+      });
       console.log(data);
+      dispatch(
+        setUser({ name: data.name, email: data.email, token: data.token })
+      );
+      setLoading(false);
+      navigate("/");
     } catch (error) {
-      setError(error.message);
+      console.log(error);
+      setError(error);
     }
   };
+
+  if (loading) {
+    return <StyledLoading>Loading...</StyledLoading>;
+  }
 
   return (
     <StyledSignup>
@@ -134,4 +154,11 @@ const StyledInput = styled.input`
   &:focus {
     outline: none;
   }
+`;
+
+const StyledLoading = styled.p`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 `;

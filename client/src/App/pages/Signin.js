@@ -1,16 +1,58 @@
 // Packages
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+// Actions
+import { setUser } from "../redux/actions/user.action";
 
 // Components
 import Button from "../components/Button";
-import ButtonOutlined from "../components/ButtonOutlined";
 
 // Assets
 import SigninSvg from "../assets/signin.svg";
+import { API } from "../utils/api";
 
 const Signin = () => {
+  // State
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // Hooks
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      setError("Name, email and password are required");
+    }
+
+    setLoading(true);
+    try {
+      const { data } = await axios.post(`${API}/auth/signin`, {
+        email,
+        password,
+      });
+      console.log(data);
+      dispatch(
+        setUser({ name: data.name, email: data.email, token: data.token })
+      );
+      setLoading(false);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      setError(error);
+    }
+  };
+
+  if (loading) {
+    return <StyledLoading>Loading...</StyledLoading>;
+  }
   return (
     <StyledSignin>
       <div className="container">
@@ -19,10 +61,22 @@ const Signin = () => {
         </div>
         <div className="details">
           <h1>Signin</h1>
-          <StyledInput type="email" placeholder="Enter Email" />
-          <StyledInput type="password" placeholder="Enter Password" />
+          <StyledInput
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            placeholder="Enter Email"
+            required
+          />
+          <StyledInput
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            placeholder="Enter Password"
+            required
+          />
           <div className="btn">
-            <Button title="Signin" />
+            <Button onClick={onSubmit} title="Signin" />
           </div>
         </div>
       </div>
@@ -90,4 +144,10 @@ const StyledInput = styled.input`
   &:focus {
     outline: none;
   }
+`;
+const StyledLoading = styled.p`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 `;
