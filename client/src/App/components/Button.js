@@ -16,6 +16,7 @@ const StyledButton = styled.span`
   text-align: center;
   transition: all 0.3s ease;
   cursor: pointer;
+  display: ${(props) => (props.width ? "block" : "inline")};
 
   color: #fff;
   background: ${(props) => props.theme.primary};

@@ -15,7 +15,7 @@ const About = () => {
     <StyledAbout>
       <div className="container">
         <div className="img">
-          <img src={AboutSvg} alt="homeSvg" />
+          <img src={AboutSvg} alt="aboutSvg" />
         </div>
         <div className="details">
           <h1>About Us</h1>
