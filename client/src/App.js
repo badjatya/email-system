@@ -4,17 +4,17 @@ import store from "./App/redux/store";
 
 // Importing Components
 import Router from "./App/routes/router";
-import Navbar from "./App/layout/Navbar";
+// import Navbar from "./App/layout/Navbar";
 
 // Importing Styles
-import GlobalStyle from "./App/styles/globalStyles";
+import GlobalStyle from "./App/styles/GlobalStyles";
 
 function App() {
   return (
     <div className="App">
       <Provider store={store}>
         <GlobalStyle />
-        <Navbar />
+        {/* <Navbar /> */}
         <Router />
       </Provider>
     </div>
