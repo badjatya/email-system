@@ -12,6 +12,7 @@ import Sent from "../pages/Sent";
 import SentDetails from "../pages/SentDetails";
 import Draft from "../pages/Draft";
 import DraftDetails from "../pages/DraftDetails";
+import NotFound from "../pages/NotFound";
 
 const Router = () => {
   return (
@@ -25,6 +26,7 @@ const Router = () => {
       <Route path="/sent/:id" element={<SentDetails />} />
       <Route path="/draft" element={<Draft />} />
       <Route path="/draft/:id" element={<DraftDetails />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
