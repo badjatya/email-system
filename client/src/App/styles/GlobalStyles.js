@@ -13,6 +13,14 @@ const GlobalStyle = createGlobalStyle`
         font-size: 16px;
         line-height: 1.5rem;
         overflow-x: hidden;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        background-color: #edede9;
+    }
+
+    .App {
+        margin: 0 auto;
+        width: 1140px;
     }
 
 `;
