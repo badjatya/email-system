@@ -2,8 +2,14 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+
+// Actions
+import { removeUser } from "../redux/actions/user.action";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.user.user.token);
   return (
     <StyledHeader>
       <StyledLink to="/" className="logo">
@@ -13,8 +19,16 @@ const Navbar = () => {
       <div className="links">
         <StyledLink to="/">Home</StyledLink>
         <StyledLink to="/about">About</StyledLink>
-        <StyledLink to="/signup">Signup</StyledLink>
-        <StyledLink to="/signin">Signin</StyledLink>
+        {!token && <StyledLink to="/signup">Signup</StyledLink>}
+        {!token && <StyledLink to="/signin">Signin</StyledLink>}
+        {token && <StyledLink to="/compose">Compose</StyledLink>}
+        {token && <StyledLink to="/sent">Sent</StyledLink>}
+        {token && <StyledLink to="/draft">Draft</StyledLink>}
+        {token && (
+          <StyledLink onClick={() => dispatch(removeUser())} to="/signin">
+            Signout
+          </StyledLink>
+        )}
       </div>
     </StyledHeader>
   );

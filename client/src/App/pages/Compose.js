@@ -2,91 +2,97 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
-// Actions
-import { setUser } from "../redux/actions/user.action";
+import { useSelector } from "react-redux";
 
 // Components
 import Button from "../components/Button";
 
-// Assets
-import SigninSvg from "../assets/signin.svg";
+// Assets / Utils
+import ComposeSvg from "../assets/compose.svg";
 import { API } from "../utils/api";
 
-const Signin = () => {
+const Compose = () => {
   // State
-  const [email, setEmail] = useState("archit.nodejs@gmail.com");
-  const [password, setPassword] = useState("");
+  const [toEmail, setToEmail] = useState("architj240@gmail.com");
+  const [emailSubject, setEmailSubject] = useState("From front end");
+  const [emailText, setEmailText] = useState("Testing with react");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const token = useSelector((state) => state.user.user.token);
 
-  // Hooks
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      setError("Name, email and password are required");
+    if (!toEmail || !emailSubject || !emailText) {
+      setError("toEmail, emailSubject and emailText are required");
     }
 
     setLoading(true);
     try {
-      const { data } = await axios.post(`${API}/auth/signin`, {
-        email,
-        password,
+      const { data } = await axios.post(`${API}/user/mail/send`, {
+        toEmail,
+        emailSubject,
+        emailText,
+        token,
       });
       console.log(data);
-      dispatch(
-        setUser({ name: data.name, email: data.email, token: data.token })
-      );
+
       setLoading(false);
       navigate("/");
     } catch (error) {
       console.log(error);
       setError(error);
+      setLoading(false);
     }
   };
 
   if (loading) {
     return <StyledLoading>Loading...</StyledLoading>;
   }
+
   return (
-    <StyledSignin>
+    <StyledCompose>
       <div className="container">
         <div className="img">
-          <img src={SigninSvg} alt="signinSvg" />
+          <img src={ComposeSvg} alt="composeSvg" />
         </div>
         <div className="details">
-          <h1>Signin</h1>
+          <h1>Compose mail</h1>
           <StyledInput
             type="email"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            placeholder="Enter Email"
+            onChange={(e) => setToEmail(e.target.value)}
+            value={toEmail}
+            placeholder="Email to"
             required
           />
           <StyledInput
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            placeholder="Enter Password"
+            type="text"
+            onChange={(e) => setEmailSubject(e.target.value)}
+            value={emailSubject}
+            placeholder="Enter Subject"
+            required
+          />
+          <StyledInput
+            type="text"
+            onChange={(e) => setEmailText(e.target.value)}
+            value={emailText}
+            placeholder="Enter message"
             required
           />
           <div className="btn">
-            <Button onClick={onSubmit} title="Signin" />
+            <Button onClick={onSubmit} title="Send email" />
           </div>
         </div>
       </div>
-    </StyledSignin>
+    </StyledCompose>
   );
 };
 
-export default Signin;
+export default Compose;
 
-const StyledSignin = styled.div`
+const StyledCompose = styled.div`
   min-height: calc(100vh - 80px);
   display: flex;
   justify-content: center;
@@ -145,6 +151,7 @@ const StyledInput = styled.input`
     outline: none;
   }
 `;
+
 const StyledLoading = styled.p`
   display: flex;
   justify-content: center;

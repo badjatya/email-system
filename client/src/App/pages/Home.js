@@ -2,6 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 // Components
 import Button from "../components/Button";
@@ -11,6 +12,7 @@ import ButtonOutlined from "../components/ButtonOutlined";
 import HomeSvg from "../assets/Home.svg";
 
 const Home = () => {
+  const token = useSelector((state) => state.user.user.token);
   return (
     <StyledHome>
       <div className="container">
@@ -20,10 +22,16 @@ const Home = () => {
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur,
             modi.
           </p>
-          <div className="btn">
-            <Button as={Link} to="/signup" title="Signup" />
-            <ButtonOutlined as={Link} to="/signin" title="Signin" />
-          </div>
+          {token ? (
+            <div className="btn">
+              <Button as={Link} to="/compose" title="Compose email" />
+            </div>
+          ) : (
+            <div className="btn">
+              <Button as={Link} to="/signup" title="Signup" />
+              <ButtonOutlined as={Link} to="/signin" title="Signin" />
+            </div>
+          )}
         </div>
         <div className="img">
           <img src={HomeSvg} alt="homeSvg" />
