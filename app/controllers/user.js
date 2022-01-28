@@ -85,7 +85,7 @@ exports.getSignedInUserSentMails = async (req, res) => {
       user: req.user._id,
       isMailSent: true,
     })
-      .select(["-__v", "-updatedAt", "-user", "-isMailSent", "-emailText"])
+      .select(["-__v", "-updatedAt", "-user", "-isMailSent"])
       .sort("-createdAt");
 
     // Sending response
@@ -161,7 +161,7 @@ exports.getSignedInUserDraftMails = async (req, res) => {
       user: req.user._id,
       isMailSent: false,
     })
-      .select(["-__v", "-updatedAt", "-user", "-isMailSent", "-emailText"])
+      .select(["-__v", "-updatedAt", "-user", "-isMailSent"])
       .sort("-createdAt");
 
     // Sending response

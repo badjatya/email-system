@@ -5,7 +5,8 @@ const initialState = {
   user: {
     name: "",
     email: "",
-    token: "",
+    token:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZjNiYTEyZjVmNGNhYjU5NWQ1MDA5MiIsInBhc3N3b3JkIjoiYXJjaGl0d2Vkc2JhZGphdHlhIiwiaWF0IjoxNjQzMzY0MjkwfQ.P9u7tCfiT_OvAN-er4MUKqKH_yVrszK7I-nLTxXpV4c",
   },
 };
 

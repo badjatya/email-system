@@ -8,6 +8,10 @@ import About from "../pages/About";
 import Signin from "../pages/Signin";
 import Signup from "../pages/Signup";
 import Compose from "../pages/Compose";
+import Sent from "../pages/Sent";
+import SentDetails from "../pages/SentDetails";
+import Draft from "../pages/Draft";
+import DraftDetails from "../pages/DraftDetails";
 
 const Router = () => {
   return (
@@ -17,6 +21,10 @@ const Router = () => {
       <Route path="/signin" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/compose" element={<Compose />} />
+      <Route path="/sent" element={<Sent />} />
+      <Route path="/sent/:id" element={<SentDetails />} />
+      <Route path="/draft" element={<Draft />} />
+      <Route path="/draft/:id" element={<DraftDetails />} />
     </Routes>
   );
 };
