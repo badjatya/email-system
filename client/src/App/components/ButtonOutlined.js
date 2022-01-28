@@ -14,7 +14,7 @@ const StyledButton = styled.span`
   margin: 10px;
   text-decoration: none;
   text-align: center;
-
+  cursor: pointer;
   color: ${(props) => props.theme.primary};
   border: 1px solid ${(props) => props.theme.primary};
   background: transparent;

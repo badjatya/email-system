@@ -33,6 +33,7 @@ const StyledHeader = styled.nav`
     font-size: 2rem;
     color: #000;
     font-weight: 700px;
+    color: ${(props) => props.theme.primary};
   }
 `;
 
@@ -41,6 +42,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   padding: 10px;
   font-weight: 700px;
+  transition: all 0.3s ease;
 
   &:hover {
     color: ${(props) => props.theme.primary};
